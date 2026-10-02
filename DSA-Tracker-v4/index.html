@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DSA Tracker - Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="brand">DSA<span>Tracker</span></div>
+    <div class="nav-right">
+      <span id="usernameDisplay">User</span>
+      <button id="logoutBtn" class="ghost-btn">Logout</button>
+    </div>
+  </nav>
+
+  <main class="container">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">YOUR DSA JOURNEY</p>
+        <h1>Welcome back, <span id="heroUsername">User</span> 👋</h1>
+        <p class="muted">Track what you solve today and keep your revision history organized.</p>
+      </div>
+      <button id="focusAddBtn" class="primary-btn">+ Add Problem</button>
+    </section>
+
+    <section class="stats-grid">
+      <div class="stat-card"><span>Today</span><strong id="todayCount">0</strong><small>problems completed</small></div>
+      <div class="stat-card"><span>This Week</span><strong id="weekCount">0</strong><small>problems completed</small></div>
+      <div class="stat-card"><span>Total Solved</span><strong id="totalCount">0</strong><small>unique problems</small></div>
+      <div class="stat-card"><span>Revisions Due</span><strong id="revisionCount">0</strong><small>problems to review</small></div>
+      <div class="stat-card"><span>Upcoming</span><strong id="upcomingCount">0</strong><small>scheduled revisions</small></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-header">
+        <div>
+          <h2>October 2026</h2>
+          <p class="muted">Your daily activity</p>
+        </div>
+        <span class="legend"><i class="dot done"></i> Completed</span>
+      </div>
+      <div class="calendar-week">
+        <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+      </div>
+      <div id="calendarGrid" class="calendar-grid"></div>
+    </section>
+
+    <section class="two-column">
+      <div class="panel">
+        <div class="panel-header">
+          <div><h2>Add DSA Problem</h2><p class="muted">Save a problem and track it from today.</p></div>
+        </div>
+        <form id="problemForm" class="problem-form">
+          <div class="url-row">
+            <input id="url" type="url" placeholder="Paste problem link — title will be fetched automatically" required>
+            <button id="fetchProblemBtn" type="button" class="secondary-btn">Auto Fetch</button>
+          </div>
+          <input id="title" type="text" placeholder="Problem name (auto-filled)" required>
+          <div class="form-row">
+            <select id="platform">
+              <option value="LeetCode">LeetCode</option>
+              <option value="GeeksforGeeks">GeeksforGeeks</option>
+              <option value="Codeforces">Codeforces</option>
+              <option value="Other">Other</option>
+            </select>
+            <select id="difficulty">
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <div class="select-with-custom">
+              <select id="topic">
+                <option value="">Select Topic</option>
+                <option>Arrays</option>
+                <option>Strings</option>
+                <option>Hashing</option>
+                <option>Two Pointers</option>
+                <option>Sliding Window</option>
+                <option>Prefix Sum</option>
+                <option>Binary Search</option>
+                <option>Linked List</option>
+                <option>Stack</option>
+                <option>Queue</option>
+                <option>Heap / Priority Queue</option>
+                <option>Trees</option>
+                <option>Binary Search Tree</option>
+                <option>Trie</option>
+                <option>Graphs</option>
+                <option>Greedy</option>
+                <option>Backtracking</option>
+                <option>Dynamic Programming</option>
+                <option>Bit Manipulation</option>
+                <option>Math</option>
+                <option>Matrix</option>
+                <option>Intervals</option>
+                <option>Recursion</option>
+                <option>Other</option>
+              </select>
+              <input id="customTopic" class="custom-input hidden" type="text" placeholder="Enter custom topic">
+            </div>
+            <div class="select-with-custom">
+              <select id="pattern">
+                <option value="">Select Pattern</option>
+                <option>Two Pointers</option>
+                <option>Sliding Window</option>
+                <option>Fast & Slow Pointers</option>
+                <option>Prefix Sum</option>
+                <option>Binary Search</option>
+                <option>Merge Intervals</option>
+                <option>Monotonic Stack</option>
+                <option>Stack</option>
+                <option>Heap / Top K</option>
+                <option>BFS</option>
+                <option>DFS</option>
+                <option>Backtracking</option>
+                <option>Greedy</option>
+                <option>Union Find</option>
+                <option>Topological Sort</option>
+                <option>Divide & Conquer</option>
+                <option>Dynamic Programming</option>
+                <option>Bit Manipulation</option>
+                <option>Trie</option>
+                <option>Other</option>
+              </select>
+              <input id="customPattern" class="custom-input hidden" type="text" placeholder="Enter custom pattern">
+            </div>
+          </div>
+          <p id="fetchMessage" class="message"></p>
+          <button class="primary-btn" type="submit">Save Problem</button>
+          <p id="problemMessage" class="message"></p>
+        </form>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <div><h2>🔴 Revision Queue</h2><p class="muted">Problems that are due today or overdue.</p></div>
+          <span id="revisionBadge" class="badge">0</span>
+        </div>
+        <div id="revisionList" class="list"></div>
+      </div>
+    </section>
+
+    <section class="two-column">
+      <div class="panel">
+        <div class="panel-header">
+          <div><h2>📅 Upcoming Revisions</h2><p class="muted">Your scheduled revision plan.</p></div>
+          <span class="badge" id="upcomingPanelBadge">Upcoming</span>
+        </div>
+        <div id="upcomingRevisionList" class="list"></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <div><h2>📚 Revision History</h2><p class="muted">Recently completed revision sessions.</p></div>
+        </div>
+        <div id="revisionHistoryList" class="list"></div>
+      </div>
+    </section>
+
+    <section class="panel">
+  <div class="panel-header">
+    <div>
+      <h2>Your Problems</h2>
+      <p class="muted">Mark a problem done for today.</p>
+    </div>
+
+    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+      <select id="patternFilter" class="search">
+        <option value="">All Patterns</option>
+      </select>
+
+      <input
+        id="searchInput"
+        class="search"
+        type="search"
+        placeholder="Search problems..."
+      >
+    </div>
+  </div>
+      <div id="problemList" class="problem-list"></div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
